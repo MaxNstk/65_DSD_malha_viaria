@@ -4,7 +4,7 @@ import model.Config;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class SimulacaoView extends JFrame {
+public class TrafegoView extends JFrame {
 
     private JPanel containerPanel;
     private JTable tbMalha;
@@ -13,7 +13,7 @@ public class SimulacaoView extends JFrame {
 
     private Config config;
 
-    public SimulacaoView(Config config) {
+    public TrafegoView(Config config) {
         this.config = config;
         super.setExtendedState(JFrame.MAXIMIZED_BOTH);
         super.setUndecorated(true);
