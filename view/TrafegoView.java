@@ -1,12 +1,14 @@
 package view;
 
 import model.Config;
+import observer.Observer;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class TrafegoView extends JFrame {
+public class TrafegoView extends JFrame implements Observer {
 
     private JPanel containerPanel;
     private JTable tbMalha;
@@ -14,10 +16,11 @@ public class TrafegoView extends JFrame {
     private JTextField tfCarrosNaMalha;
 
     public TrafegoView() {
-        super.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //super.setUndecorated(true);
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super("Tráfego em Malha");
+        super.setSize(new Dimension(1000, 1000));
         super.setContentPane(this.containerPanel);
+        super.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
             new TrafegoConfigView();
@@ -31,14 +34,18 @@ public class TrafegoView extends JFrame {
 
     private void loadTableModel() {
         tbMalha.setModel(new MalhaTableModel());
-        tbMalha.setRowHeight(25);
+        tbMalha.setRowHeight(32);
 
         tbMalha.setDefaultRenderer(Object.class, new MalhaTableModelCellRenderer());
 
         TableColumnModel columnModel = tbMalha.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            columnModel.getColumn(i).setMaxWidth(25);
+            columnModel.getColumn(i).setMaxWidth(32);
         }
-        System.out.println("");
+    }
+
+    @Override
+    public void atualizandoCarrosNaMalha(int qtdCarrosMalha) {
+        tfCarrosNaMalha.setText(String.valueOf(qtdCarrosMalha));
     }
 }

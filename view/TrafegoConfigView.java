@@ -16,7 +16,7 @@ public class TrafegoConfigView extends JFrame {
     private JComboBox cbMalha;
 
     public TrafegoConfigView() {
-        super("Tráfego em Malha Viária");
+        super("Tráfego em Malha");
         super.setSize(new Dimension(400, 300));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(this.containerPanel);
@@ -31,7 +31,6 @@ public class TrafegoConfigView extends JFrame {
                     .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
 
             new TrafegoView();
-
             super.dispose();
         });
 

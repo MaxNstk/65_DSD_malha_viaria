@@ -59,7 +59,6 @@ public class MalhaTableModel extends AbstractTableModel {
         }
     }
 
-
     @Override
     public int getRowCount() {
         return qtdLinhas;
