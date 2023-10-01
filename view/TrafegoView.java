@@ -1,7 +1,6 @@
 package view;
 
 import model.Config;
-import model.Malha;
 import observer.Observer;
 
 import javax.swing.*;
@@ -36,7 +35,7 @@ public class TrafegoView extends JFrame implements Observer {
                 btnSpawnarCarros.setText("Continuar Tráfego");
             }
             else{
-                Config.getInstance().setSpawnarNovosCarros(false);
+                Config.getInstance().setSpawnarNovosCarros(true);
                 btnSpawnarCarros.setText("Pausar Tráfego");
             }
         });
