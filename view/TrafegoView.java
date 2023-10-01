@@ -1,6 +1,7 @@
 package view;
 
 import controller.MalhaController;
+import model.Celula;
 import model.Config;
 import observer.Observer;
 
@@ -64,5 +65,12 @@ public class TrafegoView extends JFrame implements Observer {
     @Override
     public void atualizandoCarrosNaMalha(int qtdCarrosMalha) {
         tfCarrosNaMalha.setText(String.valueOf(qtdCarrosMalha));
+    }
+
+    @Override
+    public void atualizandoIconeDaCelula(Celula celula) {
+        MalhaTableModel malhaTableModel = (MalhaTableModel) tbMalha.getModel();
+        malhaTableModel.fireTableCellUpdated(celula.getLinha(), celula.getColuna());
+        malhaTableModel.fireTableDataChanged();
     }
 }

@@ -99,12 +99,12 @@ public class Celula {
         return this.iconPath;
     }
 
-    private void setIcon(){
-        if (this.carroAtual == null)
-            this.iconPath = Config.ICONS_PATH + "icon-carrro.png";
-        this.iconPath = Config.ICONS_PATH + "icon" + this.tipo + ".png";
+    public void setIcon(){
+        if (this.carroAtual != null)
+            this.iconPath = Config.ICONS_PATH + "icon-carro.png";
+        else
+            this.iconPath = Config.ICONS_PATH + "icon" + this.tipo + ".png";
     }
-
 
     @Override
     public String toString() {

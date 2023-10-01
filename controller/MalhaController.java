@@ -54,28 +54,37 @@ public class MalhaController extends Thread {
 
     private void adicionarNovoCarroAMalha(Celula celulaInicial){
         Carro carro = new Carro(this, celulaInicial);
+        celulaInicial.setIcon();
+
         carrosEmCirculacao.add(carro);
-        this.atualizarObservers();
+        this.atualizarQuantidadeDeCarrosDaMalha();
+        this.atualizarIconeDaCelula(celulaInicial);
         carro.printInformacoes();
         carro.start();
     }
 
     public void removerCarroDaMalha(Carro carro){
         this.carrosEmCirculacao.remove(carro);
+        this.atualizarIconeDaCelula(carro.getCelulaAtual());
     }
 
     public void anexarObserver(Observer observer){
         this.observers.add(observer);
     }
 
-    public void atualizarObservers(){
-        for (Observer obs: observers){
-            obs.atualizandoCarrosNaMalha(this.getQtdCarrosCirculacao());
-        }
-    }
-
     public int getQtdCarrosCirculacao(){
         return this.carrosEmCirculacao.size();
     }
 
+    private void atualizarIconeDaCelula(Celula celula) {
+        for (Observer obs: observers){
+            obs.atualizandoIconeDaCelula(celula);
+        }
+    }
+
+    public void atualizarQuantidadeDeCarrosDaMalha(){
+        for (Observer obs: observers){
+            obs.atualizandoCarrosNaMalha(this.getQtdCarrosCirculacao());
+        }
+    }
 }

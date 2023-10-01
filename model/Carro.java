@@ -45,6 +45,10 @@ public class Carro extends Thread {
         }
     }
 
+    public Celula getCelulaAtual() {
+        return celulaAtual;
+    }
+
     public void printInformacoes(){
         System.out.println(
                 "Adicionado novo carro. [linha/coluna]"+this.celulaAtual.getLinha()+"/"+this.celulaAtual.getColuna()+". "+
