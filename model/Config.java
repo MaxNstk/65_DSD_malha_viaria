@@ -9,7 +9,7 @@ public class Config {
     private int qtdVeiculosSimultaneos;
     private int intervaloInsercao;
 
-    public static final String ICONS_PATH = Paths.get("").toAbsolutePath() + "/icons";
+    public static final String ICONS_PATH = "icons/";
 
     public int getQtdVeiculosSimultaneos(){
         return qtdVeiculosSimultaneos;
