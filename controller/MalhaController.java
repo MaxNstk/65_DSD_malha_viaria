@@ -48,7 +48,7 @@ public class MalhaController extends Thread {
             sleep(Config.getInstance().getIntervaloInsercao()* 1000L);
             adicionarNovoCarroAMalha(celulaAtual);
         } catch (Exception e){
-            System.out.println(e.getMessage()+"  -   "+ Arrays.toString(e.getStackTrace()));
+            System.out.println(e.getMessage()+"   -   "+ Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -84,9 +84,15 @@ public class MalhaController extends Thread {
         }
     }
 
-    public void atualizarQuantidadeDeCarrosDaMalha(){
+    public synchronized void atualizarQuantidadeDeCarrosDaMalha(){
         for (Observer obs: observers){
             obs.atualizandoCarrosNaMalha(this.getQtdCarrosCirculacao());
+        }
+    }
+
+    public void matar(){
+        for (Carro carro: this.carrosEmCirculacao){
+            carro.interrupt();
         }
     }
 }

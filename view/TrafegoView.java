@@ -18,6 +18,8 @@ public class TrafegoView extends JFrame implements Observer {
     private JButton btnEncerrar;
     private JTextField tfCarrosNaMalha;
     private JButton btnSpawnarCarros;
+
+    private MalhaController malhaController;
     
     public TrafegoView() {
         super("Tráfego em Malha");
@@ -27,6 +29,7 @@ public class TrafegoView extends JFrame implements Observer {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
+            malhaController.matar();
             new TrafegoConfigView();
             Config.reset();
             super.dispose();
@@ -44,7 +47,7 @@ public class TrafegoView extends JFrame implements Observer {
         });
 
         this.loadTableModel();
-        MalhaController malhaController = new MalhaController();
+        malhaController = new MalhaController();
         malhaController.anexarObserver(this);
         malhaController.start();
         super.setVisible(true);

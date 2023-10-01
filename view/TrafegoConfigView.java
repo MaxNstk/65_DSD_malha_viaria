@@ -27,6 +27,7 @@ public class TrafegoConfigView extends JFrame {
         loadMalhas(this.containerPanel);
 
         btnIniciarTrafego.addActionListener((ActionEvent e) -> {
+            Config.reset();
             Config.getInstance()
                     .setMalhaAtual(getMalhaSelecionada())
                     .setMecanismoExclusaoMutua(getMecanismoSelecionado())

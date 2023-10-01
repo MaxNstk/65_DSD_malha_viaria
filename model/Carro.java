@@ -22,7 +22,7 @@ public class Carro extends Thread {
     @Override
     public void run() {
         while (celulaAtual != null){
-
+            setProximaCelula();
             aguardar();
         }
         this.malhaController.removerCarroDaMalha(this);
@@ -38,7 +38,7 @@ public class Carro extends Thread {
         }
     }
 
-    private void getProximaCelula(){
+    private void setProximaCelula(){
         switch (celulaAtual.getClassificacao()){
             case ClassificacaoCelula.SAIDA:
                 this.celulaAtual = null;
