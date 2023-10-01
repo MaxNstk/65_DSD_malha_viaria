@@ -65,7 +65,9 @@ public class MalhaController extends Thread {
 
     public void removerCarroDaMalha(Carro carro){
         this.carrosEmCirculacao.remove(carro);
-        this.atualizarIconeDaCelula(carro.getCelulaAtual());
+        Celula celula = carro.getCelulaAtual();
+        celula.setCarroAtual(null);
+        this.atualizarIconeDaCelula(celula);
     }
 
     public void anexarObserver(Observer observer){

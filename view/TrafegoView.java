@@ -3,6 +3,7 @@ package view;
 import controller.MalhaController;
 import model.Celula;
 import model.Config;
+import model.Malha;
 import observer.Observer;
 
 import javax.swing.*;
