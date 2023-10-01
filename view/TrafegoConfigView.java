@@ -27,7 +27,7 @@ public class TrafegoConfigView extends JFrame {
         btnIniciarTrafego.addActionListener((ActionEvent e) -> {
             Config.getInstance()
                     .setMalhaAtual(getMalhaSelecionada())
-                    .setQtdVeiculosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
+                    .setqtdCarrosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
                     .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
 
             new TrafegoView();
