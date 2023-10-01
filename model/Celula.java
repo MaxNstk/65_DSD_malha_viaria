@@ -24,4 +24,9 @@ public class Celula {
             this.iconPath = Config.ICONS_PATH + "icon-carrro.png";
         this.iconPath = Config.ICONS_PATH + "icon" + this.tipo + ".png";
     }
+
+    @Override
+    public String toString() {
+        return ""+this.tipo;
+    }
 }

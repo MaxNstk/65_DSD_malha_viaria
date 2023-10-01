@@ -22,6 +22,8 @@ public class MalhaTableModel extends AbstractTableModel {
     public MalhaTableModel() {
         this.inicializarVariaveis();
         this.inicializarMalha();
+        this.printMatriz();
+        System.out.println("");
     }
 
     private void inicializarVariaveis(){
@@ -38,15 +40,23 @@ public class MalhaTableModel extends AbstractTableModel {
     }
 
     private void inicializarMalha(){
+        while (matrizScanner.hasNextInt()){
+            for (int linha = 0; linha < this.qtdLinhas; linha++) {
+                for (int coluna = 0; coluna < this.qtdColunas; coluna++) {
 
-        for (int linha = 0; linha < this.qtdLinhas; linha++) {
-            for (int coluna = 0; coluna < this.qtdColunas; coluna++) {
-                while (matrizScanner.hasNextInt()){
-                    int tipo = matrizScanner.nextInt();
-                    Celula celulaAtual = new Celula(coluna, linha, tipo);
-                    this.matrizMalha[coluna][linha] = celulaAtual;
+                        int tipo = matrizScanner.nextInt();
+                        Celula celulaAtual = new Celula(coluna, linha, tipo);
+                        this.matrizMalha[linha][coluna] = celulaAtual;
                 }
             }
+        }
+    }
+    private void printMatriz(){
+        for (int linha = 0; linha < this.qtdLinhas; linha++) {
+            for (int coluna = 0; coluna < this.qtdColunas; coluna++) {
+                System.out.printf(this.matrizMalha[linha][coluna].toString()+" ");
+            }
+            System.out.println("");
         }
     }
 
