@@ -1,6 +1,7 @@
 package view;
 
 import model.Config;
+import model.Malha;
 import observer.Observer;
 
 import javax.swing.*;
@@ -33,6 +34,7 @@ public class TrafegoView extends JFrame implements Observer {
     }
 
     private void loadTableModel() {
+
         tbMalha.setModel(new MalhaTableModel());
         tbMalha.setRowHeight(32);
 

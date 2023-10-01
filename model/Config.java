@@ -9,6 +9,8 @@ public class Config {
     private int qtdCarrosSimultaneos;
     private int intervaloInsercao;
 
+    private boolean spawnarNovosCarros = true;
+
     public static final String ICONS_PATH = "icons/";
     public static final String MALHA_PATH = "malhas/";
 
@@ -57,4 +59,11 @@ public class Config {
         return instance;
     }
 
+    public boolean getSpawnarNovosCarros(){
+        return this.spawnarNovosCarros;
+    }
+
+    public void setSpawnarNovosCarros(boolean spawnarNovosCarros) {
+        this.spawnarNovosCarros = spawnarNovosCarros;
+    }
 }
