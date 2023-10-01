@@ -8,6 +8,7 @@ import model.Malha;
 import observer.Observer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MalhaController extends Thread {
@@ -41,13 +42,13 @@ public class MalhaController extends Thread {
             return;
         if (!celulaAtual.celulaEstaVazia()) // Tem de estar vazia
             return;
-        if (carrosEmCirculacao.size() == Config.getInstance().getQtdCarrosSimultaneos()) // Não pode ultrapassar o limite estabelecido
+        if (this.getQtdCarrosCirculacao() == Config.getInstance().getQtdCarrosSimultaneos()) // Não pode ultrapassar o limite estabelecido
             return;
         try{
-            sleep(Config.getInstance().getIntervaloInsercao());
+            sleep(Config.getInstance().getIntervaloInsercao()* 1000L);
             adicionarNovoCarroAMalha(celulaAtual);
         } catch (Exception e){
-            System.out.println(e.getMessage()+"  -   "+e.getStackTrace());
+            System.out.println(e.getMessage()+"  -   "+ Arrays.toString(e.getStackTrace()));
         }
     }
 

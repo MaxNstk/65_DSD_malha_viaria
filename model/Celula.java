@@ -28,6 +28,14 @@ public class Celula {
         this.setClassificacao();
     }
 
+    public int getColuna() {
+        return coluna;
+    }
+
+    public int getLinha() {
+        return linha;
+    }
+
     private void setClassificacao() {
 
         switch (this.tipo){
