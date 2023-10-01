@@ -10,6 +10,7 @@ public class Config {
     private int intervaloInsercao;
 
     public static final String ICONS_PATH = "icons/";
+    public static final String MALHA_PATH = "malhas/";
 
     public int getQtdVeiculosSimultaneos(){
         return qtdVeiculosSimultaneos;
