@@ -1,17 +1,17 @@
 package view;
 
+import model.Config;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class TrafegoConfigView extends JFrame {
 
     private JPanel containerPanel;
     private JTextField tfIntervalo;
-    private JTextField tfQuantidadeCarros;
-    private JTextField tfLimiteCarros;
+    private JTextField tfLimiteCarrosSimultaneos;
     private JButton btnIniciarTrafego;
     private JComboBox cbMalha;
 
@@ -25,6 +25,10 @@ public class TrafegoConfigView extends JFrame {
         loadMalhas(this.containerPanel);
 
         btnIniciarTrafego.addActionListener((ActionEvent e) -> {
+            Config.getInstance()
+                    .setMalhaAtual(getMalhaSelecionada())
+                    .setQtdVeiculosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
+                    .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
 
             // #TODO Renderizar tela de Tráfego
 

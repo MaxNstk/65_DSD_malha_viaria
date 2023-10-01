@@ -1,8 +1,17 @@
 package model;
 
+import java.nio.file.Paths;
+
 public class Config {
 
-    public int getQtdVeiculosSimultaneos() {
+    private static Config instance;
+    private String malhaAtual;
+    private int qtdVeiculosSimultaneos;
+    private int intervaloInsercao;
+
+    public static final String ICONS_PATH = Paths.get("").toAbsolutePath() + "/icons";
+
+    public int getQtdVeiculosSimultaneos(){
         return qtdVeiculosSimultaneos;
     }
 
@@ -10,12 +19,41 @@ public class Config {
         return intervaloInsercao;
     }
 
-    public Config(int qtdVeiculosSimultaneos, int intervaloInsercao) {
-        this.qtdVeiculosSimultaneos = qtdVeiculosSimultaneos;
-        this.intervaloInsercao = intervaloInsercao;
+    private Config() {
     }
 
-    private int qtdVeiculosSimultaneos;
-    private int intervaloInsercao;
+    public static synchronized Config getInstance(){
+        if (instance != null)
+            reset();
+        return instance;
+    }
+
+    public static synchronized void reset(){
+        instance =  new Config();
+    }
+
+    public static void setInstance(Config instance) {
+        Config.instance = instance;
+    }
+
+    public String getMalhaAtual() {
+        return malhaAtual;
+    }
+
+    public Config setMalhaAtual(String malhaAtual) {
+
+        this.malhaAtual = malhaAtual;
+        return instance;
+    }
+
+    public Config setQtdVeiculosSimultaneos(int qtdVeiculosSimultaneos) {
+        this.qtdVeiculosSimultaneos = qtdVeiculosSimultaneos;
+        return instance;
+    }
+
+    public Config setIntervaloInsercao(int intervaloInsercao) {
+        this.intervaloInsercao = intervaloInsercao;
+        return instance;
+    }
 
 }
