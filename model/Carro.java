@@ -4,9 +4,6 @@ import controller.MalhaController;
 
 public class Carro extends Thread {
 
-
-    public static final String ICONS_PATH = "icons/";
-
     private int velocidade; // em milissegundos
 
     private MalhaController malhaController;

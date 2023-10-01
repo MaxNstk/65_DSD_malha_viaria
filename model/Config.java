@@ -8,6 +8,7 @@ public class Config {
     private String malhaAtual;
     private int qtdCarrosSimultaneos;
     private int intervaloInsercao;
+    private String mecanismoExclusaoMutua;
 
     private boolean spawnarNovosCarros = true;
 
@@ -65,5 +66,14 @@ public class Config {
 
     public void setSpawnarNovosCarros(boolean spawnarNovosCarros) {
         this.spawnarNovosCarros = spawnarNovosCarros;
+    }
+
+    public String getMecanismoExclusaoMutua() {
+        return mecanismoExclusaoMutua;
+    }
+
+    public Config setMecanismoExclusaoMutua(String mecanismoExclusaoMutua) {
+        this.mecanismoExclusaoMutua = mecanismoExclusaoMutua;
+        return instance;
     }
 }

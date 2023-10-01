@@ -14,6 +14,7 @@ public class TrafegoConfigView extends JFrame {
     private JTextField tfLimiteCarrosSimultaneos;
     private JButton btnIniciarTrafego;
     private JComboBox cbMalha;
+    private JComboBox cbExclusaoMutua;
 
     public TrafegoConfigView() {
         super("Tráfego em Malha");
@@ -27,12 +28,17 @@ public class TrafegoConfigView extends JFrame {
         btnIniciarTrafego.addActionListener((ActionEvent e) -> {
             Config.getInstance()
                     .setMalhaAtual(getMalhaSelecionada())
+                    .setMecanismoExclusaoMutua(getMecanismoSelecionado())
                     .setqtdCarrosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
                     .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
 
             new TrafegoView();
             super.dispose();
         });
+
+        // Carregando opções de Exclusão Mutua
+        cbExclusaoMutua.addItem("Semaforo");
+        cbExclusaoMutua.addItem("Monitor");
 
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -57,5 +63,9 @@ public class TrafegoConfigView extends JFrame {
 
     public String getMalhaSelecionada(){
         return (String) cbMalha.getSelectedItem();
+    }
+
+    public String getMecanismoSelecionado(){
+        return (String) cbExclusaoMutua.getSelectedItem();
     }
 }
