@@ -39,5 +39,6 @@ public class TrafegoView extends JFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setMaxWidth(25);
         }
+        System.out.println("");
     }
 }

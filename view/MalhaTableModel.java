@@ -23,7 +23,6 @@ public class MalhaTableModel extends AbstractTableModel {
         this.inicializarVariaveis();
         this.inicializarMalha();
         this.printMatriz();
-        System.out.println("");
     }
 
     private void inicializarVariaveis(){
@@ -73,6 +72,6 @@ public class MalhaTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return new ImageIcon(this.matrizMalha[columnIndex][rowIndex].getIcon());
+        return new ImageIcon(this.matrizMalha[rowIndex][columnIndex].getIcon());
     }
 }
