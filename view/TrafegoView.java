@@ -15,7 +15,8 @@ public class TrafegoView extends JFrame implements Observer {
     private JTable tbMalha;
     private JButton btnEncerrar;
     private JTextField tfCarrosNaMalha;
-
+    private JButton btnSpawnarCarros;
+    
     public TrafegoView() {
         super("Tráfego em Malha");
         super.setSize(new Dimension(1000, 1000));
@@ -27,6 +28,17 @@ public class TrafegoView extends JFrame implements Observer {
             new TrafegoConfigView();
             Config.reset();
             super.dispose();
+        });
+
+        btnSpawnarCarros.addActionListener((ActionEvent e) -> {
+            if(Config.getInstance().getSpawnarNovosCarros()){
+                Config.getInstance().setSpawnarNovosCarros(false);
+                btnSpawnarCarros.setText("Continuar Tráfego");
+            }
+            else{
+                Config.getInstance().setSpawnarNovosCarros(false);
+                btnSpawnarCarros.setText("Pausar Tráfego");
+            }
         });
 
         this.loadTableModel();
