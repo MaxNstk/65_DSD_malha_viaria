@@ -24,7 +24,7 @@ public class TrafegoView extends JFrame implements Observer {
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
             new TrafegoConfigView();
-            Config.getInstance().reset();
+            Config.reset();
             super.dispose();
         });
 

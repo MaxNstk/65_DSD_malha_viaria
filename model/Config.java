@@ -6,14 +6,14 @@ public class Config {
 
     private static Config instance;
     private String malhaAtual;
-    private int qtdVeiculosSimultaneos;
+    private int qtdCarrosSimultaneos;
     private int intervaloInsercao;
 
     public static final String ICONS_PATH = "icons/";
     public static final String MALHA_PATH = "malhas/";
 
-    public int getQtdVeiculosSimultaneos(){
-        return qtdVeiculosSimultaneos;
+    public int getQtdCarrosSimultaneos(){
+        return qtdCarrosSimultaneos;
     }
 
     public int getIntervaloInsercao() {
@@ -47,8 +47,8 @@ public class Config {
         return instance;
     }
 
-    public Config setQtdVeiculosSimultaneos(int qtdVeiculosSimultaneos) {
-        this.qtdVeiculosSimultaneos = qtdVeiculosSimultaneos;
+    public Config setqtdCarrosSimultaneos(int qtdCarrosSimultaneos) {
+        this.qtdCarrosSimultaneos = qtdCarrosSimultaneos;
         return instance;
     }
 
