@@ -1,6 +1,7 @@
 package view;
 
 import model.Config;
+import model.Malha;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,7 @@ public class TrafegoConfigView extends JFrame {
                     .setMecanismoExclusaoMutua(getMecanismoSelecionado())
                     .setqtdCarrosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
                     .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
-
+            Malha.reset();
             new TrafegoView();
             super.dispose();
         });

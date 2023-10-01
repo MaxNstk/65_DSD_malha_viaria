@@ -1,5 +1,6 @@
 package view;
 
+import controller.MalhaController;
 import model.Config;
 import observer.Observer;
 
@@ -41,6 +42,9 @@ public class TrafegoView extends JFrame implements Observer {
         });
 
         this.loadTableModel();
+        MalhaController malhaController = new MalhaController();
+        malhaController.anexarObserver(this);
+        malhaController.start();
         super.setVisible(true);
     }
 
