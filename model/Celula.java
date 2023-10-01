@@ -22,6 +22,6 @@ public class Celula {
     private void setIcon(){
         if (this.veiculo == null)
             this.iconPath = Config.ICONS_PATH + "icon-carrro.png";
-        this.iconPath = Config.ICONS_PATH + this.tipo + ".png";
+        this.iconPath = Config.ICONS_PATH + "icon" + this.tipo + ".png";
     }
 }

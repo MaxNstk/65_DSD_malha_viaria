@@ -21,7 +21,7 @@ public class TrafegoConfigView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(this.containerPanel);
 
-        //Gerando botões de malhas dinâmicamente
+        //Gerando malhas dinâmicamente
         loadMalhas(this.containerPanel);
 
         btnIniciarTrafego.addActionListener((ActionEvent e) -> {
@@ -30,7 +30,7 @@ public class TrafegoConfigView extends JFrame {
                     .setQtdVeiculosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
                     .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
 
-            // #TODO Renderizar tela de Tráfego
+            new TrafegoView();
 
             super.dispose();
         });

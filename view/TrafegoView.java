@@ -1,7 +1,9 @@
 package view;
 
 import model.Config;
+
 import javax.swing.*;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 
 public class TrafegoView extends JFrame {
@@ -11,18 +13,15 @@ public class TrafegoView extends JFrame {
     private JButton btnEncerrar;
     private JTextField tfCarrosNaMalha;
 
-    private Config config;
-
-    public TrafegoView(Config config) {
-        this.config = config;
+    public TrafegoView() {
         super.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        super.setUndecorated(true);
+        //super.setUndecorated(true);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setContentPane(this.containerPanel);
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
             new TrafegoConfigView();
-            this.config.reset();
+            Config.getInstance().reset();
             super.dispose();
         });
 
@@ -31,7 +30,14 @@ public class TrafegoView extends JFrame {
     }
 
     private void loadTableModel() {
+        tbMalha.setModel(new MalhaTableModel());
+        tbMalha.setRowHeight(25);
 
+        tbMalha.setDefaultRenderer(Object.class, new MalhaTableModelCellRenderer());
+
+        TableColumnModel columnModel = tbMalha.getColumnModel();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            columnModel.getColumn(i).setMaxWidth(25);
+        }
     }
-
 }

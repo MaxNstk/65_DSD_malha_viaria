@@ -24,7 +24,7 @@ public class Config {
     }
 
     public static synchronized Config getInstance(){
-        if (instance != null)
+        if (instance == null)
             reset();
         return instance;
     }
@@ -38,7 +38,7 @@ public class Config {
     }
 
     public String getMalhaAtual() {
-        return malhaAtual;
+        return MALHA_PATH + malhaAtual;
     }
 
     public Config setMalhaAtual(String malhaAtual) {

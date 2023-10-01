@@ -1,4 +1,7 @@
-package model;
+package view;
+
+import model.Celula;
+import model.Config;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
