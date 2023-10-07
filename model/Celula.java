@@ -3,7 +3,6 @@ package model;
 import consts.ClassificacaoCelula;
 import consts.TiposCelula;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Celula {

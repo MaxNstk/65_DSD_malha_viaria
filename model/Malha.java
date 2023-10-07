@@ -16,8 +16,6 @@ public class Malha {
     private int qtdColunas;
     private Scanner matrizScanner;
     private static Malha instance;
-    
-
 
     private Malha() {
         this.inicializarVariaveis();
@@ -122,6 +120,46 @@ public class Malha {
 
     public LinkedList<Celula> getRegiaoCritica(Celula proximaCelula) {
 
-        return null;
+        LinkedList<Celula> regiaoCritica = new LinkedList<>();
+
+        regiaoCritica.add(proximaCelula);
+
+        //Realizando mapeamento das celulas do cruzamento
+        switch (proximaCelula.getTipo()){
+            case TiposCelula.CRUZAMENTO_CIMA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()-1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
+            case TiposCelula.CRUZAMENTO_DIREITA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()+1]);
+            case TiposCelula.CRUZAMENTO_BAIXO:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()+1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
+            case TiposCelula.CRUZAMENTO_ESQUERDA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()+1]);
+            case TiposCelula.CRUZAMENTO_CIMA_E_DIREITA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()-1]);
+            case TiposCelula.CRUZAMENTO_CIMA_E_ESQUERDA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()-1]);
+            case TiposCelula.CRUZAMENTO_DIREITA_E_BAIXO:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()+1]);
+            case TiposCelula.CRUZAMENTO_BAIXO_E_ESQUERDA:
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
+                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()+1]);
+        }
+
+        return regiaoCritica;
     }
 }
