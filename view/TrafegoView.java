@@ -77,4 +77,9 @@ public class TrafegoView extends JFrame implements Observer {
         malhaTableModel.fireTableCellUpdated(celula.getLinha(), celula.getColuna());
         malhaTableModel.fireTableDataChanged();
     }
+
+    @Override
+    public void encerrarSimulacao() {
+        btnEncerrar.doClick();
+    }
 }
