@@ -34,7 +34,8 @@ public class Carro extends Thread {
                 break;
             }
             if (proximaCelula.getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)){
-                this.locomoverRegiaoCritica(proximaCelula);
+                this.locomoverRegiaoCriticaReservandoTodaArea(proximaCelula);
+//                this.locomoverRegiaoCriticaReservandoSomenteRegiao(proximaCelula);
             }
             else{
                 this.locomover(proximaCelula);
@@ -43,16 +44,26 @@ public class Carro extends Thread {
         this.finalizar();
     }
 
-    private void locomoverRegiaoCritica(Celula proximaCelula) {
+
+
+    private void locomoverRegiaoCriticaReservandoTodaArea(Celula proximaCelula) {
+        // esse metodo reserva toda a região critica para o carro andar
 
         List<Celula> regiaoCritia = Malha.getInstance().getRegiaoCritica(proximaCelula);
-
-        // tentativa de reservar todos cruzamentos é sincrona, andar sobre eles não
-        if (tentarReservarCruzamento(regiaoCritia)){
+        if (tentarReservarCruzamento(regiaoCritia)) {
             LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
             if (rotaCruzamento.getLast().estaDisponivel())
                 andarNoCruzamento(rotaCruzamento);
             liberarCelulas(regiaoCritia);
+        }
+    }
+    private void locomoverRegiaoCriticaReservandoSomenteRegiao(Celula proximaCelula) {
+        // esse metodo reserva somente o seu trajeto na região critica para o carro andar, descomente para funcionar
+
+        LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
+        if (tentarReservarCruzamento(rotaCruzamento)){
+            andarNoCruzamento(rotaCruzamento);
+            liberarCelulas(rotaCruzamento);
         }
     }
 
