@@ -5,6 +5,7 @@ import consts.TiposCelula;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Malha {
@@ -14,12 +15,38 @@ public class Malha {
     private int qtdColunas;
     private Scanner matrizScanner;
     private static Malha instance;
+    
+    private List<RegiaoCritica> regioesCriticas;
 
 
     private Malha() {
         this.inicializarVariaveis();
         this.inicializarMalha();
+        this.definirRegioesCriticas();
         this.printMatriz();
+    }
+
+    private void definirRegioesCriticas() {
+        RegiaoCritica regiaoCritica = new RegiaoCritica();
+
+        for (int linha = 0; linha < this.qtdLinhas; linha++) {
+            for (int coluna = 0; coluna < this.qtdColunas; coluna++) {
+                Celula celula = this.matrizMalha[linha][coluna];
+
+                if (celula.getClassificacao() == ClassificacaoCelula.CRUZAMENTO){
+                    if (!regiaoCritica.contains(celula)){
+                        regiaoCritica.addCelula(celula);
+                        regiaoCritica.addCelula(this.matrizMalha[linha][coluna+1]);
+                        regiaoCritica.addCelula(this.matrizMalha[linha+1][coluna]);
+                        regiaoCritica.addCelula(this.matrizMalha[linha+1][coluna+1]);
+
+                        this.regioesCriticas.add(regiaoCritica);
+                    }else{
+                        regiaoCritica = new RegiaoCritica();
+                    }
+                }
+            }
+        }
     }
 
     public synchronized static Malha getInstance() {
@@ -86,14 +113,16 @@ public class Malha {
             if (celulaAtual.getClassificacao().equals(ClassificacaoCelula.SAIDA))
                 return null;
             switch (celulaAtual.getTipo()){
+
                 case TiposCelula.ESTRADA_CIMA:
                     return matrizMalha[celulaAtual.getLinha()-1][celulaAtual.getColuna()];
                 case TiposCelula.ESTRADA_DIREITA:
                     return matrizMalha[celulaAtual.getLinha()][celulaAtual.getColuna()+1];
                 case TiposCelula.ESTRADA_BAIXO:
-                return matrizMalha[celulaAtual.getLinha()+1][celulaAtual.getColuna()];
+                    return matrizMalha[celulaAtual.getLinha()+1][celulaAtual.getColuna()];
                 case TiposCelula.ESTRADA_ESQUERDA:
                     return matrizMalha[celulaAtual.getLinha()][celulaAtual.getColuna()-1];
+
                 case TiposCelula.CRUZAMENTO_CIMA:
                     return null;
                 case TiposCelula.CRUZAMENTO_DIREITA:
@@ -113,5 +142,9 @@ public class Malha {
                 default:
                     return null;
         }
+    }
+
+    public RegiaoCritica getRegiaoCritica(Celula proximaCelula) {
+        return null;
     }
 }

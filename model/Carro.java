@@ -25,9 +25,23 @@ public class Carro extends Thread {
         while (!this.isInterrupted()){
             Celula proximaCelula = Malha.getInstance().getProximaCelula(celulaAtual);
             aguardar();
-            this.locomover(proximaCelula);
+
+            if (proximaCelula.getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)){
+                this.locomoverRegiaoCritica(proximaCelula);
+            }
+            else{
+                this.locomover(proximaCelula);
+            }
         }
         this.malhaController.removerCarroDaMalha(this);
+    }
+
+    private synchronized void locomoverRegiaoCritica(Celula proximaCelula) {
+        // pega as outras celulas
+        // define o caminho
+        // na mula
+        
+        RegiaoCritica regiaoCritica = Malha.getInstance().getRegiaoCritica(proximaCelula);
     }
 
     private synchronized void locomover(Celula proximaCelula){
