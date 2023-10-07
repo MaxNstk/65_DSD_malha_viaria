@@ -169,6 +169,7 @@ public class Malha {
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()+1]);
                 break;
             case TiposCelula.CRUZAMENTO_ESQUERDA:
+            case TiposCelula.CRUZAMENTO_CIMA_E_ESQUERDA:
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()]);
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()-1]);
@@ -177,11 +178,6 @@ public class Malha {
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()-1]);
-                break;
-            case TiposCelula.CRUZAMENTO_CIMA_E_ESQUERDA:
-                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()][proximaCelula.getColuna()-1]);
-                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()]);
-                regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()+1][proximaCelula.getColuna()-1]);
                 break;
             case TiposCelula.CRUZAMENTO_DIREITA_E_BAIXO:
                 regiaoCritica.add(this.matrizMalha[proximaCelula.getLinha()-1][proximaCelula.getColuna()]);
