@@ -4,6 +4,7 @@ import consts.ClassificacaoCelula;
 import controller.MalhaController;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -48,19 +49,25 @@ public class Carro extends Thread {
 
         // tentativa de reservar todos cruzamentos é sincrona, andar sobre eles não
         if (tentarReservarCruzamento(regiaoCritia)){
-            printCruzamentos(regiaoCritia);
-            andarNoCruzamento(proximaCelula);
+            LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
+            if (rotaCruzamento.getLast().estaDisponivel())
+                andarNoCruzamento(rotaCruzamento);
             liberarCelulas(regiaoCritia);
         }
     }
 
-    private void andarNoCruzamento(Celula proximaCelula){
-
-        andar(proximaCelula);
-        while (this.celulaAtual.getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)){
+    private LinkedList<Celula> getRotaCruzamento(Celula proximaCelula){
+        LinkedList<Celula> rota = new LinkedList<>();
+        rota.add(proximaCelula);
+        while (rota.getLast().getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)) {
             proximaCelula = Malha.getInstance().getProximaCelula(this.celulaAtual);
-            andar(proximaCelula);
+            rota.add(proximaCelula);
         }
+        return rota;
+    }
+    private void andarNoCruzamento(LinkedList<Celula> rota){
+        for (Celula celula:rota)
+            andar(celula);
     }
 
     private synchronized boolean tentarReservarCruzamento(List<Celula> celulasCruzamento){
