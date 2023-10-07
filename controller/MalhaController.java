@@ -16,7 +16,6 @@ public class MalhaController extends Thread {
     private List<Carro> carrosEmCirculacao;
     private List<Observer> observers;
 
-
     public MalhaController() {
         this.carrosEmCirculacao = new ArrayList<>();
         this.observers= new ArrayList<>();
@@ -48,7 +47,7 @@ public class MalhaController extends Thread {
         if (this.getQtdCarrosCirculacao() == Config.getInstance().getQtdCarrosSimultaneos()) // Não pode ultrapassar o limite estabelecido
             return;
         try{
-            sleep(Config.getInstance().getIntervaloInsercao()* 1000L);
+            Thread.sleep((long) (Config.getInstance().getIntervaloInsercao()* 1000));
             adicionarNovoCarroAMalha(celulaAtual);
         } catch (Exception e){
             System.out.println(e.getMessage()+"   -   "+ Arrays.toString(e.getStackTrace()));

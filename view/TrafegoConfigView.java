@@ -32,7 +32,7 @@ public class TrafegoConfigView extends JFrame {
                     .setMalhaAtual(getMalhaSelecionada())
                     .setMecanismoExclusaoMutua(getMecanismoSelecionado())
                     .setqtdCarrosSimultaneos(Integer.parseInt(tfLimiteCarrosSimultaneos.getText()))
-                    .setIntervaloInsercao(Integer.parseInt(tfIntervalo.getText()));
+                    .setIntervaloInsercao(Double.parseDouble(tfIntervalo.getText()));
             Malha.reset();
             new TrafegoView();
             super.dispose();

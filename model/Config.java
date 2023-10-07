@@ -7,7 +7,7 @@ public class Config {
     private static Config instance;
     private String malhaAtual;
     private int qtdCarrosSimultaneos;
-    private int intervaloInsercao;
+    private double intervaloInsercao;
     private String mecanismoExclusaoMutua;
 
     private boolean spawnarNovosCarros = true;
@@ -21,7 +21,7 @@ public class Config {
         return qtdCarrosSimultaneos;
     }
 
-    public int getIntervaloInsercao() {
+    public double getIntervaloInsercao() {
         return intervaloInsercao;
     }
 
@@ -57,7 +57,7 @@ public class Config {
         return instance;
     }
 
-    public Config setIntervaloInsercao(int intervaloInsercao) {
+    public Config setIntervaloInsercao(double intervaloInsercao) {
         this.intervaloInsercao = intervaloInsercao;
         return instance;
     }
