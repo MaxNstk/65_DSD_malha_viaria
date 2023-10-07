@@ -27,7 +27,7 @@ public class MalhaController extends Thread {
     }
 
     private void inicializar() {
-        while (Config.getInstance().getSpawnarNovosCarros()){
+        while (!Thread.currentThread().isInterrupted() && Config.getInstance().getSpawnarNovosCarros()){
             for (int linha = 0; linha < Malha.getInstance().getQtdLinhas(); linha++) {
                 for (int coluna = 0; coluna < Malha.getInstance().getQtdColunas(); coluna++) {
                     this.AtualizarCelula(linha,coluna);
@@ -78,13 +78,13 @@ public class MalhaController extends Thread {
         return this.carrosEmCirculacao.size();
     }
 
-    private void atualizarIconeDaCelula(Celula celula) {
+    public void atualizarIconeDaCelula(Celula celula) {
         for (Observer obs: observers){
             obs.atualizandoIconeDaCelula(celula);
         }
     }
 
-    public synchronized void atualizarQuantidadeDeCarrosDaMalha(){
+    public void atualizarQuantidadeDeCarrosDaMalha(){
         for (Observer obs: observers){
             obs.atualizandoCarrosNaMalha(this.getQtdCarrosCirculacao());
         }
@@ -94,5 +94,6 @@ public class MalhaController extends Thread {
         for (Carro carro: this.carrosEmCirculacao){
             carro.interrupt();
         }
+        this.interrupt();
     }
 }

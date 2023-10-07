@@ -1,6 +1,7 @@
 package model;
 
 import consts.ClassificacaoCelula;
+import consts.TiposCelula;
 import controller.MalhaController;
 
 import java.util.Random;
@@ -21,9 +22,18 @@ public class Carro extends Thread {
 
     @Override
     public void run() {
-        while (celulaAtual != null){
-            setProximaCelula();
+        while (this.celulaAtual != null){
+            Celula proximaCelula = Malha.getInstance().getProximaCelula(celulaAtual);
+            if (proximaCelula == null)
+                continue;
             aguardar();
+            proximaCelula.setCarroAtual(this);
+            this.celulaAtual.setCarroAtual(null);
+            this.malhaController.atualizarIconeDaCelula(celulaAtual);
+
+            this.celulaAtual = proximaCelula;
+            this.malhaController.atualizarIconeDaCelula(proximaCelula);
+
         }
         this.malhaController.removerCarroDaMalha(this);
     }
@@ -35,13 +45,6 @@ public class Carro extends Thread {
             // Ocorreu tudo OK! Ela foi interrompida
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private void setProximaCelula(){
-        switch (celulaAtual.getClassificacao()){
-            case ClassificacaoCelula.SAIDA:
-                this.celulaAtual = null;
         }
     }
 

@@ -30,9 +30,9 @@ public class TrafegoView extends JFrame implements Observer {
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
             malhaController.matar();
-            new TrafegoConfigView();
             Config.reset();
             super.dispose();
+            new TrafegoConfigView();
         });
 
         btnSpawnarCarros.addActionListener((ActionEvent e) -> {

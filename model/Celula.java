@@ -14,6 +14,10 @@ public class Celula {
     private String classificacao;
     private Carro carroAtual = null;
 
+    public int getTipo() {
+        return tipo;
+    }
+
     private int ultimaLinhaDaMalha;
     private int ultimaColunaDaMalha;
 
