@@ -60,7 +60,10 @@ public class Carro extends Thread {
         LinkedList<Celula> rota = new LinkedList<>();
         rota.add(proximaCelula);
         while (rota.getLast().getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)) {
-            proximaCelula = Malha.getInstance().getProximaCelula(proximaCelula);
+            if (rota.size() >=3)
+                proximaCelula = Malha.getInstance().getCelulaSaidaMaisProxima(proximaCelula);
+            else
+                proximaCelula = Malha.getInstance().getProximaCelula(proximaCelula);
             rota.add(proximaCelula);
         }
         return rota;

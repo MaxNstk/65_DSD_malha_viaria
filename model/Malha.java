@@ -132,6 +132,32 @@ public class Malha {
         }
     }
 
+    public Celula getCelulaSaidaMaisProxima(Celula celula) {
+        switch (celula.getTipo()){
+            case TiposCelula.CRUZAMENTO_CIMA_E_DIREITA:
+            case TiposCelula.CRUZAMENTO_DIREITA:
+            case TiposCelula.ESTRADA_CIMA:
+                return getCelulaADireita(celula);
+
+            case TiposCelula.CRUZAMENTO_CIMA_E_ESQUERDA:
+            case TiposCelula.CRUZAMENTO_CIMA:
+            case TiposCelula.ESTRADA_DIREITA:
+                return getCelulaACima(celula);
+
+            case TiposCelula.CRUZAMENTO_DIREITA_E_BAIXO:
+            case TiposCelula.CRUZAMENTO_BAIXO:
+            case TiposCelula.ESTRADA_BAIXO:
+                return getCelulaABaixo(celula);
+
+            case TiposCelula.CRUZAMENTO_BAIXO_E_ESQUERDA:
+            case TiposCelula.CRUZAMENTO_ESQUERDA:
+            case TiposCelula.ESTRADA_ESQUERDA:
+                return getCelulaAEsquerda(celula);
+            default:
+                return null;
+        }
+    }
+
     private Celula getCelulaACima(Celula celula){
         return matrizMalha[celula.getLinha()-1][celula.getColuna()];
     }
