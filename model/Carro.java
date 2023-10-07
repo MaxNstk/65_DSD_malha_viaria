@@ -22,20 +22,29 @@ public class Carro extends Thread {
 
     @Override
     public void run() {
-        while (this.celulaAtual != null){
+        while (!this.isInterrupted()){
             Celula proximaCelula = Malha.getInstance().getProximaCelula(celulaAtual);
-            if (proximaCelula == null)
-                continue;
             aguardar();
-            proximaCelula.setCarroAtual(this);
+            this.locomover(proximaCelula);
+        }
+        this.malhaController.removerCarroDaMalha(this);
+    }
+
+    private synchronized void locomover(Celula proximaCelula){
+        if (!Config.getInstance().emExecucao || proximaCelula == null){
+            this.finalizar();
+        }
+        else {
+            if (proximaCelula.isOcupada())
+                return;
+
             this.celulaAtual.setCarroAtual(null);
             this.malhaController.atualizarIconeDaCelula(celulaAtual);
 
+            proximaCelula.setCarroAtual(this);
             this.celulaAtual = proximaCelula;
             this.malhaController.atualizarIconeDaCelula(proximaCelula);
-
         }
-        this.malhaController.removerCarroDaMalha(this);
     }
 
     public void aguardar() {
@@ -58,6 +67,12 @@ public class Carro extends Thread {
                     this.celulaAtual.getClassificacao()+". "+this.tempoEspera+
                     ". Total de carros: "+this.malhaController.getQtdCarrosCirculacao()
         );
+    }
+
+    public void finalizar(){
+        this.celulaAtual.setCarroAtual(null);
+        this.malhaController.atualizarIconeDaCelula(celulaAtual);
+        this.interrupt();
     }
 
 }

@@ -29,7 +29,7 @@ public class TrafegoView extends JFrame implements Observer {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         btnEncerrar.addActionListener((ActionEvent e) -> {
-            malhaController.matar();
+            Config.getInstance().emExecucao = false;
             Config.reset();
             super.dispose();
             new TrafegoConfigView();
@@ -73,7 +73,6 @@ public class TrafegoView extends JFrame implements Observer {
 
     @Override
     public void atualizandoIconeDaCelula(Celula celula) {
-        Malha.getInstance().setCell(celula);
         MalhaTableModel malhaTableModel = (MalhaTableModel) tbMalha.getModel();
         malhaTableModel.fireTableCellUpdated(celula.getLinha(), celula.getColuna());
         malhaTableModel.fireTableDataChanged();

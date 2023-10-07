@@ -31,6 +31,10 @@ public class Celula {
         this.setClassificacao();
     }
 
+    public boolean isOcupada(){
+        return this.carroAtual != null;
+    }
+
     public int getColuna() {
         return coluna;
     }
@@ -99,7 +103,7 @@ public class Celula {
     }
 
     public String getIcon(){
-        if (this.carroAtual != null) {
+        if (this.isOcupada()) {
             return Config.ICONS_PATH + "icon-carro.png";
         }
         else {

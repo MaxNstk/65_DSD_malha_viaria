@@ -16,6 +16,7 @@ public class MalhaController extends Thread {
     private List<Carro> carrosEmCirculacao;
     private List<Observer> observers;
 
+
     public MalhaController() {
         this.carrosEmCirculacao = new ArrayList<>();
         this.observers= new ArrayList<>();
@@ -27,13 +28,15 @@ public class MalhaController extends Thread {
     }
 
     private void inicializar() {
-        while (!Thread.currentThread().isInterrupted() && Config.getInstance().getSpawnarNovosCarros()){
+        Config.getInstance().emExecucao = true;
+        while (Config.getInstance().emExecucao && Config.getInstance().getSpawnarNovosCarros()){
             for (int linha = 0; linha < Malha.getInstance().getQtdLinhas(); linha++) {
                 for (int coluna = 0; coluna < Malha.getInstance().getQtdColunas(); coluna++) {
                     this.AtualizarCelula(linha,coluna);
                 }
             }
         }
+        this.interrupt();
     }
 
     private void AtualizarCelula(int linha, int coluna){
@@ -89,10 +92,4 @@ public class MalhaController extends Thread {
         }
     }
 
-    public void matar(){
-        for (Carro carro: this.carrosEmCirculacao){
-            carro.interrupt();
-        }
-        this.interrupt();
-    }
 }

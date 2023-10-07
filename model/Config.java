@@ -15,6 +15,8 @@ public class Config {
     public static final String ICONS_PATH = "icons/";
     public static final String MALHA_PATH = "malhas/";
 
+    public boolean emExecucao = false;
+
     public int getQtdCarrosSimultaneos(){
         return qtdCarrosSimultaneos;
     }
