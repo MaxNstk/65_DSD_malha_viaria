@@ -4,6 +4,7 @@ import consts.ClassificacaoCelula;
 import consts.TiposCelula;
 import controller.MalhaController;
 
+import java.util.List;
 import java.util.Random;
 
 public class Carro extends Thread {
@@ -36,29 +37,40 @@ public class Carro extends Thread {
         this.malhaController.removerCarroDaMalha(this);
     }
 
-    private synchronized void locomoverRegiaoCritica(Celula proximaCelula) {
-        // pega as outras celulas
-        // define o caminho
-        // na mula
-        
-        RegiaoCritica regiaoCritica = Malha.getInstance().getRegiaoCritica(proximaCelula);
+    private void locomoverRegiaoCritica(Celula proximaCelula) {
+
+        List<Celula> regiaoCritia = Malha.getInstance().getRegiaoCritica(proximaCelula);
+        // tentativa de reservar todos cruzamentos é sincrona, andar sobre eles, não
+        if (tentarReservarCruzamento(regiaoCritia)){
+            // se locomove
+            liberarCruzamentos(regiaoCritia);
+        }
+
+    }
+
+    private synchronized boolean tentarReservarCruzamento(List<Celula> celulasCruzamento){
+        return true;
+    }
+
+    private synchronized void liberarCruzamentos(List<Celula> celulasCruzamento){
+
     }
 
     private synchronized void locomover(Celula proximaCelula){
         if (!Config.getInstance().emExecucao || proximaCelula == null){
             this.finalizar();
+            return;
         }
-        else {
-            if (proximaCelula.isOcupada())
-                return;
-
-            this.celulaAtual.setCarroAtual(null);
-            this.malhaController.atualizarIconeDaCelula(celulaAtual);
-
-            proximaCelula.setCarroAtual(this);
-            this.celulaAtual = proximaCelula;
-            this.malhaController.atualizarIconeDaCelula(proximaCelula);
+        if (proximaCelula.isOcupada()) {
+            return;
         }
+
+        this.celulaAtual.liberar();
+        this.malhaController.atualizarIconeDaCelula(celulaAtual);
+
+        proximaCelula.setCarroAtual(this);
+        this.celulaAtual = proximaCelula;
+        this.malhaController.atualizarIconeDaCelula(proximaCelula);
     }
 
     public void aguardar() {

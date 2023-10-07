@@ -4,22 +4,19 @@ import consts.ClassificacaoCelula;
 import consts.TiposCelula;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Celula {
 
-    private String iconPath;
     private int coluna;
     private int linha;
     private int tipo;
     private String classificacao;
     private Carro carroAtual = null;
-
-    public int getTipo() {
-        return tipo;
-    }
-
     private int ultimaLinhaDaMalha;
     private int ultimaColunaDaMalha;
+
+    private boolean celulaLiberada = true;
 
 
     public Celula(int coluna, int linha, int tipo, int qtdTotalLinhas, int qtdTotalColunas) {
@@ -31,8 +28,17 @@ public class Celula {
         this.setClassificacao();
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
     public boolean isOcupada(){
-        return this.carroAtual != null;
+        return this.carroAtual != null && this.celulaLiberada;
+    }
+
+    public void liberar(){
+        this.carroAtual = null;
+        this.celulaLiberada = true;
     }
 
     public int getColuna() {
@@ -114,5 +120,10 @@ public class Celula {
     @Override
     public String toString() {
         return ""+this.tipo;
+    }
+
+    public List<Celula> getCruzamentos() {
+        return null;
+//        if (this.classificacao)
     }
 }

@@ -5,6 +5,7 @@ import consts.TiposCelula;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,37 +17,12 @@ public class Malha {
     private Scanner matrizScanner;
     private static Malha instance;
     
-    private List<RegiaoCritica> regioesCriticas;
 
 
     private Malha() {
         this.inicializarVariaveis();
         this.inicializarMalha();
-        this.definirRegioesCriticas();
         this.printMatriz();
-    }
-
-    private void definirRegioesCriticas() {
-        RegiaoCritica regiaoCritica = new RegiaoCritica();
-
-        for (int linha = 0; linha < this.qtdLinhas; linha++) {
-            for (int coluna = 0; coluna < this.qtdColunas; coluna++) {
-                Celula celula = this.matrizMalha[linha][coluna];
-
-                if (celula.getClassificacao() == ClassificacaoCelula.CRUZAMENTO){
-                    if (!regiaoCritica.contains(celula)){
-                        regiaoCritica.addCelula(celula);
-                        regiaoCritica.addCelula(this.matrizMalha[linha][coluna+1]);
-                        regiaoCritica.addCelula(this.matrizMalha[linha+1][coluna]);
-                        regiaoCritica.addCelula(this.matrizMalha[linha+1][coluna+1]);
-
-                        this.regioesCriticas.add(regiaoCritica);
-                    }else{
-                        regiaoCritica = new RegiaoCritica();
-                    }
-                }
-            }
-        }
     }
 
     public synchronized static Malha getInstance() {
@@ -144,7 +120,8 @@ public class Malha {
         }
     }
 
-    public RegiaoCritica getRegiaoCritica(Celula proximaCelula) {
+    public LinkedList<Celula> getRegiaoCritica(Celula proximaCelula) {
+
         return null;
     }
 }
