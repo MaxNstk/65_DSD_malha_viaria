@@ -16,8 +16,8 @@ public class TrafegoView extends JFrame implements Observer {
     private JPanel containerPanel;
     private JTable tbMalha;
     private JButton btnEncerrar;
-    private JTextField tfCarrosNaMalha;
     private JButton btnSpawnarCarros;
+    private JLabel jlQtdCarros;
 
     private MalhaController malhaController;
     
@@ -68,7 +68,7 @@ public class TrafegoView extends JFrame implements Observer {
 
     @Override
     public void atualizandoCarrosNaMalha(int qtdCarrosMalha) {
-        tfCarrosNaMalha.setText(String.valueOf(qtdCarrosMalha));
+        jlQtdCarros.setText("Quantidade de Carros na Malha: " + String.valueOf(qtdCarrosMalha));
     }
 
     @Override
