@@ -29,7 +29,7 @@ public class MalhaController extends Thread {
     private void inicializar() {
         Config.getInstance().emExecucao = true;
         while (Config.getInstance().emExecucao){
-            while (Config.getInstance().getSpawnarNovosCarros()){
+            while (Config.getInstance().getSpawnarNovosCarros() && Config.getInstance().emExecucao){
                 for (int linha = 0; linha < Malha.getInstance().getQtdLinhas(); linha++) {
                     for (int coluna = 0; coluna < Malha.getInstance().getQtdColunas(); coluna++) {
                         this.AtualizarCelula(linha,coluna);

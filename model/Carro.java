@@ -13,7 +13,6 @@ public class Carro extends Thread {
     private int tempoEspera; // em milissegundos
     private MalhaController malhaController;
     private Celula celulaAtual;
-
     private boolean finalizado = false;
     private final Random random = new Random();
 
@@ -22,6 +21,10 @@ public class Carro extends Thread {
         this.celulaAtual = celulaAtual;
         this.tempoEspera = (random.nextInt(10)*100) + 200; // sorteio de 0,2 segundos a 1,2 segundos de espera
         celulaAtual.setCarroAtual(this);
+    }
+
+    public Celula getCelulaAtual() {
+        return celulaAtual;
     }
 
     @Override
@@ -38,32 +41,30 @@ public class Carro extends Thread {
 //                this.locomoverRegiaoCriticaReservandoSomenteRegiao(proximaCelula);
             }
             else{
-                this.locomover(proximaCelula);
+                this.locomoverEmEstradaSimplesMonitor(proximaCelula);
             }
         }
         this.finalizar();
     }
 
-
-
     private void locomoverRegiaoCriticaReservandoTodaArea(Celula proximaCelula) {
         // esse metodo reserva toda a região critica para o carro andar
 
         List<Celula> regiaoCritia = Malha.getInstance().getRegiaoCritica(proximaCelula);
-        if (tentarReservarCruzamento(regiaoCritia)) {
+        if (tentarReservarCruzamentoMonitor(regiaoCritia)) {
             LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
             if (rotaCruzamento.getLast().estaDisponivel())
                 andarNoCruzamento(rotaCruzamento);
-            liberarCelulas(regiaoCritia);
+            liberarCelulasMonitor(regiaoCritia);
         }
     }
     private void locomoverRegiaoCriticaReservandoSomenteRegiao(Celula proximaCelula) {
         // esse metodo reserva somente o seu trajeto na região critica para o carro andar, descomente para funcionar
 
         LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
-        if (tentarReservarCruzamento(rotaCruzamento)){
+        if (tentarReservarCruzamentoMonitor(rotaCruzamento)){
             andarNoCruzamento(rotaCruzamento);
-            liberarCelulas(rotaCruzamento);
+            liberarCelulasMonitor(rotaCruzamento);
         }
     }
 
@@ -79,18 +80,19 @@ public class Carro extends Thread {
         }
         return rota;
     }
+
     private void andarNoCruzamento(LinkedList<Celula> rota){
         for (Celula celula:rota)
-            andar(celula);
+            this.locomover(celula);
     }
 
-    private synchronized boolean tentarReservarCruzamento(List<Celula> celulasCruzamento){
+    private synchronized boolean tentarReservarCruzamentoMonitor(List<Celula> celulasCruzamento){
         ArrayList<Celula> celulasReservadas = new ArrayList<>();
 
         // tenta reservar todas celulas do cruzamento, se alguma falhar, libera geral que reservou
         for (Celula celula: celulasCruzamento){
             if (!celula.estaDisponivel()){
-                this.liberarCelulas(celulasReservadas);
+                this.liberarCelulasMonitor(celulasReservadas);
                 return false;
             }
             celula.reservar();
@@ -99,17 +101,17 @@ public class Carro extends Thread {
         return true;
     }
 
-    private synchronized void liberarCelulas(List<Celula> celulas){
+    private synchronized void liberarCelulasMonitor(List<Celula> celulas){
         for (Celula celula : celulas){
             celula.liberar();
         }
     }
 
-    private synchronized void locomover(Celula proximaCelula){
+    private synchronized void locomoverEmEstradaSimplesMonitor(Celula proximaCelula){
         if (!proximaCelula.estaDisponivel()) {
             return;
         }
-        this.andar(proximaCelula);
+        this.locomover(proximaCelula);
     }
 
     public void aguardar() {
@@ -122,31 +124,7 @@ public class Carro extends Thread {
         }
     }
 
-    public Celula getCelulaAtual() {
-        return celulaAtual;
-    }
-
-    public void printInformacoes(){
-        System.out.println(
-                "Adicionado novo carro. [linha/coluna]"+this.celulaAtual.getLinha()+"/"+this.celulaAtual.getColuna()+". "+
-                    this.celulaAtual.getClassificacao()+". "+this.tempoEspera+
-                    ". Total de carros: "+this.malhaController.getQtdCarrosCirculacao()
-        );
-    }
-
-    public synchronized void printCruzamentos(List<Celula> regiaoCritia){
-                for (Celula c: regiaoCritia){
-            System.out.print(c.getLinha()+","+c.getColuna()+"  ");
-        }
-        System.out.println("  ");
-    }
-
-    public void finalizar(){
-        this.malhaController.removerCarroDaMalha(this);
-        this.interrupt();
-    }
-
-    private void andar(Celula celulaDestino){
+    private void locomover(Celula celulaDestino){
         this.aguardar();
 
         this.celulaAtual.setCarroAtual(null);
@@ -156,5 +134,29 @@ public class Carro extends Thread {
         this.celulaAtual = celulaDestino;
         this.malhaController.atualizarIconeDaCelula(celulaDestino);
     }
+
+    public void finalizar(){
+        this.malhaController.removerCarroDaMalha(this);
+        this.interrupt();
+    }
+
+
+// Print de informações
+
+    public void printInformacoes(){
+        System.out.println(
+                "Adicionado novo carro. [linha/coluna]"+this.celulaAtual.getLinha()+"/"+this.celulaAtual.getColuna()+". "+
+                        this.celulaAtual.getClassificacao()+". "+this.tempoEspera+
+                        ". Total de carros: "+this.malhaController.getQtdCarrosCirculacao()
+        );
+    }
+
+    public synchronized void printCruzamentos(List<Celula> regiaoCritia){
+        for (Celula c: regiaoCritia){
+            System.out.print(c.getLinha()+","+c.getColuna()+"  ");
+        }
+        System.out.println("  ");
+    }
+
 
 }
