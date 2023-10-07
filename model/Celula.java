@@ -9,13 +9,13 @@ public class Celula {
 
     private int coluna;
     private int linha;
-    private int tipo;
-    private String classificacao;
+    private int tipo; // Representa a direção da estrada, é correspondente ao número na matriz
+    private String classificacao; // Representa se a estrada é uma ENTRADA/SAIDA/CRUZAMENTO/VAZIO
     private Carro carroAtual = null;
     private int ultimaLinhaDaMalha;
     private int ultimaColunaDaMalha;
 
-    private boolean celulaLiberada = true;
+    private boolean celulaDisponivel = true;
 
 
     public Celula(int coluna, int linha, int tipo, int qtdTotalLinhas, int qtdTotalColunas) {
@@ -31,13 +31,19 @@ public class Celula {
         return tipo;
     }
 
-    public boolean isOcupada(){
-        return this.carroAtual != null && this.celulaLiberada;
+    public boolean estaDisponivel(){
+        return this.carroAtual == null && this.celulaDisponivel;
+    }
+    
+    public void reservar(){
+        if (!estaDisponivel())
+            System.out.println("DEU RUUIM, CÉLULA JA ESTA RESERVADA");
+        this.celulaDisponivel = false;
     }
 
     public void liberar(){
         this.carroAtual = null;
-        this.celulaLiberada = true;
+        this.celulaDisponivel = true;
     }
 
     public int getColuna() {
@@ -108,7 +114,7 @@ public class Celula {
     }
 
     public String getIcon(){
-        if (this.isOcupada()) {
+        if (this.carroAtual != null) {
             return Config.ICONS_PATH + "icon-carro.png";
         }
         else {
