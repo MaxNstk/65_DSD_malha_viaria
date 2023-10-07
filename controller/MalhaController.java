@@ -54,7 +54,6 @@ public class MalhaController extends Thread {
 
     private void adicionarNovoCarroAMalha(Celula celulaInicial){
         Carro carro = new Carro(this, celulaInicial);
-        celulaInicial.setIcon();
 
         carrosEmCirculacao.add(carro);
         this.atualizarQuantidadeDeCarrosDaMalha();

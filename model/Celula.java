@@ -28,7 +28,6 @@ public class Celula {
         this.tipo = tipo;
         this.ultimaLinhaDaMalha = qtdTotalLinhas - 1;
         this.ultimaColunaDaMalha = qtdTotalColunas - 1;
-        this.setIcon();
         this.setClassificacao();
     }
 
@@ -100,14 +99,12 @@ public class Celula {
     }
 
     public String getIcon(){
-        return this.iconPath;
-    }
-
-    public void setIcon(){
-        if (this.carroAtual != null)
-            this.iconPath = Config.ICONS_PATH + "icon-carro.png";
-        else
-            this.iconPath = Config.ICONS_PATH + "icon" + this.tipo + ".png";
+        if (this.carroAtual != null) {
+            return Config.ICONS_PATH + "icon-carro.png";
+        }
+        else {
+            return Config.ICONS_PATH + "icon" + this.tipo + ".png";
+        }
     }
 
     @Override

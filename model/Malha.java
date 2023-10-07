@@ -13,6 +13,8 @@ public class Malha {
     private int qtdLinhas;
     private int qtdColunas;
     private Scanner matrizScanner;
+    private static Malha instance;
+
 
     private Malha() {
         this.inicializarVariaveis();
@@ -20,13 +22,15 @@ public class Malha {
         this.printMatriz();
     }
 
-    private static Malha instance;
-
     public synchronized static Malha getInstance() {
         if (instance == null){
             reset();
         }
         return instance;
+    }
+
+    public void setCell(Celula celula){
+        matrizMalha[celula.getLinha()][celula.getColuna()] = celula;
     }
 
     public synchronized static void reset(){
@@ -55,6 +59,7 @@ public class Malha {
                 }
             }
         }
+        matrizScanner.close();
     }
     private void printMatriz(){
         for (int linha = 0; linha < this.qtdLinhas; linha++) {

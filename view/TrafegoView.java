@@ -73,6 +73,7 @@ public class TrafegoView extends JFrame implements Observer {
 
     @Override
     public void atualizandoIconeDaCelula(Celula celula) {
+        Malha.getInstance().setCell(celula);
         MalhaTableModel malhaTableModel = (MalhaTableModel) tbMalha.getModel();
         malhaTableModel.fireTableCellUpdated(celula.getLinha(), celula.getColuna());
         malhaTableModel.fireTableDataChanged();
