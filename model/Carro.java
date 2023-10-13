@@ -59,11 +59,17 @@ public class Carro extends Thread {
                 locomover(proximaCelula);
                 locomoveu = true;
                 proximaCelula.liberar();
-            }
+            }else
+                try {
+                    sleep(100 + random.nextInt(400));
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println(e.getMessage());
+                }
         }
     }
 
-    private void locomoverRegiaoCritica(Celula proximaCelula) {
+    private void locomoverRegiaoCritica(Celula proximaCelula){
 
         LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
         boolean reservou = false;
@@ -75,6 +81,12 @@ public class Carro extends Thread {
                 // se não conseguir, libera as ja reservadas e reseta a tentativa
                 if (!celula.tentarReservar()) {
                     liberarCelulas(celulasReservadas);
+                    try {
+                        sleep(100 + random.nextInt(1000));
+                    }catch (Exception e){
+                        System.out.println(e);
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 celulasReservadas.add(celula);

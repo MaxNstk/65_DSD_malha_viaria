@@ -123,13 +123,12 @@ public class Celula {
     }
 
     public boolean tentarReservar(){
+        if (this.carroAtual != null)
+            return false;
         try{
-            boolean reservou = this.lock.tryLock(100, TimeUnit.MILLISECONDS);
-            return reservou;
+            return this.lock.tryLock(100, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
-            System.out.println(e);
-            System.out.println(e);
-            System.out.println(e);
+            System.out.println(e.getStackTrace());
             return false;
         }
     }
@@ -137,10 +136,7 @@ public class Celula {
     public void liberar(){
         try{
             this.lock.unlock();
-        } catch (IllegalMonitorStateException e){
-            System.out.println(e);
-        }
-
+        }catch (Exception e){}
     }
 
 }
