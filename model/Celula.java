@@ -4,6 +4,7 @@ import consts.ClassificacaoCelula;
 import consts.TiposCelula;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,14 +18,17 @@ public class Celula {
     private Carro carroAtual = null;
     private int ultimaLinhaDaMalha;
     private int ultimaColunaDaMalha;
-
     private boolean celulaDisponivel = true;
-
     private Lock lock;
+    private Semaphore semaforo;
+
+    String mecanismoExclusaoMutua;
 
 
     public Celula(int coluna, int linha, int tipo, int qtdTotalLinhas, int qtdTotalColunas) {
+        this.mecanismoExclusaoMutua = Config.getInstance().getMecanismoExclusaoMutua();
         this.lock = new ReentrantLock();
+        this.semaforo = new Semaphore(1);
         this.coluna = coluna;
         this.linha = linha;
         this.tipo = tipo;
@@ -122,9 +126,7 @@ public class Celula {
         return ""+this.tipo;
     }
 
-    public boolean tentarReservar(){
-        if (this.carroAtual != null)
-            return false;
+    public boolean tentarReservarMonitor(){
         try{
             return this.lock.tryLock(100, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
@@ -133,7 +135,38 @@ public class Celula {
         }
     }
 
+    public boolean tentarReservarSemaforo(){
+        try{
+            return this.semaforo.tryAcquire(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            System.out.println(e.getStackTrace());
+            return false;
+        }
+    }
+
+    public boolean tentarReservar(){
+        if (this.carroAtual != null)
+            return false;
+        if (this.mecanismoExclusaoMutua.equals("Semaforo"))
+            return this.tentarReservarSemaforo();
+        else
+            return tentarReservarMonitor();
+    }
+
     public void liberar(){
+        if (this.mecanismoExclusaoMutua.equals("Semaforo"))
+            this.liberarSemaforo();
+        else
+            this.liberarMonitor();
+    }
+
+    public void liberarSemaforo(){
+        try{
+            this.semaforo.release();
+        }catch (Exception e){}
+    }
+
+    public void liberarMonitor(){
         try{
             this.lock.unlock();
         }catch (Exception e){}

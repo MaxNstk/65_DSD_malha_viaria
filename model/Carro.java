@@ -82,6 +82,9 @@ public class Carro extends Thread {
                 if (!celula.tentarReservar()) {
                     liberarCelulas(celulasReservadas);
                     try {
+                        // como tem momentos que 4 carros estão disputando o cruzamento, com
+                        // possiveis rotas longas, 400 era muito pouco, talvez seja interessante calcular uma
+                        // nova rota
                         sleep(100 + random.nextInt(1000));
                     }catch (Exception e){
                         System.out.println(e);
