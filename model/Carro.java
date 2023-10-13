@@ -31,41 +31,57 @@ public class Carro extends Thread {
     public void run() {
         while (Config.getInstance().emExecucao && !this.finalizado){
             Celula proximaCelula = Malha.getInstance().getProximaCelula(celulaAtual);
-            if (proximaCelula == null){
-                aguardar();
-                this.finalizado = true;
-                break;
-            }
-            if (proximaCelula.getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO)){
-                this.locomoverRegiaoCriticaReservandoTodaArea(proximaCelula);
-//                this.locomoverRegiaoCriticaReservandoSomenteRegiao(proximaCelula);
-            }
-            else{
-                this.locomoverEmEstradaSimplesMonitor(proximaCelula);
-            }
+
+            // null = não há proxima celula
+            if (proximaCelula == null)
+                sairDaMalha();
+
+            // se for cruzamento se locome na região critica
+            else if (proximaCelula.getClassificacao().equals(ClassificacaoCelula.CRUZAMENTO))
+                this.locomoverRegiaoCritica(proximaCelula);
+
+            // se for estrada comum se locome diretamente para próxima célula
+            else
+                locomoverEstradaComum(proximaCelula);
         }
         this.finalizar();
     }
 
-    private void locomoverRegiaoCriticaReservandoTodaArea(Celula proximaCelula) {
-        // esse metodo reserva toda a região critica para o carro andar
+    private void sairDaMalha(){
+        aguardar();
+        this.finalizado = true;
+    }
 
-        List<Celula> regiaoCritia = Malha.getInstance().getRegiaoCritica(proximaCelula);
-        if (tentarReservarCruzamentoMonitor(regiaoCritia)) {
-            LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
-            if (rotaCruzamento.getLast().estaDisponivel())
-                andarNoCruzamento(rotaCruzamento);
-            liberarCelulasMonitor(regiaoCritia);
+    private void locomoverEstradaComum(Celula proximaCelula){
+        boolean locomoveu = false;
+        while (!locomoveu){
+            if (proximaCelula.tentarReservar()){
+                locomover(proximaCelula);
+                locomoveu = true;
+                proximaCelula.liberar();
+            }
         }
     }
-    private void locomoverRegiaoCriticaReservandoSomenteRegiao(Celula proximaCelula) {
-        // esse metodo reserva somente o seu trajeto na região critica para o carro andar, descomente para funcionar
+
+    private void locomoverRegiaoCritica(Celula proximaCelula) {
 
         LinkedList<Celula> rotaCruzamento = this.getRotaCruzamento(proximaCelula);
-        if (tentarReservarCruzamentoMonitor(rotaCruzamento)){
-            andarNoCruzamento(rotaCruzamento);
-            liberarCelulasMonitor(rotaCruzamento);
+        boolean reservou = false;
+
+        while (!reservou){
+            LinkedList<Celula> celulasReservadas = new LinkedList<>();
+            for (Celula celula : rotaCruzamento){
+                // tenta reservar e adicionar a lista de reservadas
+                // se não conseguir, libera as ja reservadas e reseta a tentativa
+                if (!celula.tentarReservar()) {
+                    liberarCelulas(celulasReservadas);
+                    break;
+                }
+                celulasReservadas.add(celula);
+                reservou = celulasReservadas.size() == rotaCruzamento.size();
+            }
         }
+        andarNoCruzamento(rotaCruzamento);
     }
 
     private LinkedList<Celula> getRotaCruzamento(Celula proximaCelula){
@@ -81,37 +97,17 @@ public class Carro extends Thread {
         return rota;
     }
 
-    private void andarNoCruzamento(LinkedList<Celula> rota){
-        for (Celula celula:rota)
+    private void andarNoCruzamento(List<Celula> rota) {
+        for (Celula celula : rota) {
             this.locomover(celula);
-    }
-
-    private synchronized boolean tentarReservarCruzamentoMonitor(List<Celula> celulasCruzamento){
-        ArrayList<Celula> celulasReservadas = new ArrayList<>();
-
-        // tenta reservar todas celulas do cruzamento, se alguma falhar, libera geral que reservou
-        for (Celula celula: celulasCruzamento){
-            if (!celula.estaDisponivel()){
-                this.liberarCelulasMonitor(celulasReservadas);
-                return false;
-            }
-            celula.reservar();
-            celulasReservadas.add(celula);
-        }
-        return true;
-    }
-
-    private synchronized void liberarCelulasMonitor(List<Celula> celulas){
-        for (Celula celula : celulas){
             celula.liberar();
         }
     }
 
-    private synchronized void locomoverEmEstradaSimplesMonitor(Celula proximaCelula){
-        if (!proximaCelula.estaDisponivel()) {
-            return;
+    private synchronized void liberarCelulas(List<Celula> celulas){
+        for (Celula celula : celulas){
+            celula.liberar();
         }
-        this.locomover(proximaCelula);
     }
 
     public void aguardar() {
@@ -124,7 +120,7 @@ public class Carro extends Thread {
         }
     }
 
-    private void locomover(Celula celulaDestino){
+    public void locomover(Celula celulaDestino){
         this.aguardar();
 
         this.celulaAtual.setCarroAtual(null);

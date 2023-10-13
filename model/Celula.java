@@ -4,6 +4,9 @@ import consts.ClassificacaoCelula;
 import consts.TiposCelula;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Celula {
 
@@ -17,8 +20,11 @@ public class Celula {
 
     private boolean celulaDisponivel = true;
 
+    private Lock lock;
+
 
     public Celula(int coluna, int linha, int tipo, int qtdTotalLinhas, int qtdTotalColunas) {
+        this.lock = new ReentrantLock();
         this.coluna = coluna;
         this.linha = linha;
         this.tipo = tipo;
@@ -33,17 +39,6 @@ public class Celula {
 
     public boolean estaDisponivel(){
         return this.carroAtual == null && this.celulaDisponivel;
-    }
-    
-    public void reservar(){
-        if (!estaDisponivel())
-            System.out.println("DEU RUUIM, CÉLULA JA ESTA RESERVADA");
-        this.celulaDisponivel = false;
-    }
-
-    public void liberar(){
-        this.carroAtual = null;
-        this.celulaDisponivel = true;
     }
 
     public int getColuna() {
@@ -127,8 +122,25 @@ public class Celula {
         return ""+this.tipo;
     }
 
-    public List<Celula> getCruzamentos() {
-        return null;
-//        if (this.classificacao)
+    public boolean tentarReservar(){
+        try{
+            boolean reservou = this.lock.tryLock(100, TimeUnit.MILLISECONDS);
+            return reservou;
+        } catch (InterruptedException e) {
+            System.out.println(e);
+            System.out.println(e);
+            System.out.println(e);
+            return false;
+        }
     }
+
+    public void liberar(){
+        try{
+            this.lock.unlock();
+        } catch (IllegalMonitorStateException e){
+            System.out.println(e);
+        }
+
+    }
+
 }
